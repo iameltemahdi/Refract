@@ -91,8 +91,6 @@ struct StudioView: View {
 
     private func toolbar(wide: Bool) -> some View {
         HStack(spacing: 6) {
-            Image(systemName: "circle.lefthalf.filled").font(.system(size: 22, weight: .medium))
-                .accessibilityHidden(true)
             Text("Refract").font(.system(size: 20, weight: .semibold)).tracking(-0.6)
             Spacer(minLength: 4)
             if !wide {

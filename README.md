@@ -1,12 +1,18 @@
 # Refract
 
+<img src="docs/assets/refract-logo.png" alt="Refract glass prism logo" width="128">
+
 Refract is a native macOS and iPadOS app for applying glass distortion to photos, graphics, and type. The editor runs locally and uses the same renderer for previews and exports.
+
+[Download for Mac](../../releases/latest) · [What’s new in 4.1.0](docs/release-notes/4.1.0.md)
+
+![Refract 4.1.0 showing the glass effects editor on macOS](docs/assets/refract-screenshot.png)
 
 ## Download
 
-Grab **Refract-3.0-macOS.zip** from the [Releases page](../../releases/latest), unzip it, and move `Refract.app` to your Applications folder. It runs on Apple Silicon and Intel Macs with macOS 13 or later.
+Download **Refract-4.1.0-macOS.zip** from [Releases](../../releases), unzip it, and move `Refract.app` to your Applications folder. It runs on Apple Silicon and Intel Macs with macOS 13 or later.
 
-The app is ad hoc signed, not notarized. If macOS blocks the first launch, right-click `Refract.app`, choose **Open**, then confirm.
+The release ZIP contains an ad hoc signed build. If Gatekeeper blocks the first launch, consult [Apple’s instructions for opening an unnotarized app](https://support.apple.com/en-us/102445).
 
 ## Using Refract
 
@@ -23,15 +29,15 @@ The canvas supports pinch-to-zoom on iPad and Mac trackpads. When built with Xco
 
 Open `Refract.xcodeproj` in Xcode. The project uses only Apple frameworks.
 
-**Mac** — Select the Refract scheme and **My Mac**, then press **⌘R**. The app targets macOS 13+. To build for Apple Silicon and Intel:
+**Mac** — Select the Refract scheme and **My Mac**, then press **⌘R**. Run the packaging script from the repository root to build a release for Apple Silicon and Intel.
 
 ```sh
-xcodebuild -scheme Refract -configuration Release \
-  -destination 'generic/platform=macOS' -derivedDataPath build \
-  ARCHS='arm64 x86_64' build
+./scripts/package-macos.sh
 ```
 
-The product is at `build/Build/Products/Release/Refract.app`. Local release builds are ad hoc signed. Public distribution with Gatekeeper approval requires your own Developer ID signing and notarization.
+The app is at `build/Build/Products/Release/Refract.app`. The script verifies the signature and both architectures, then creates `build/Refract-4.1.0-macOS.zip` and its SHA-256 checksum.
+
+To publish this update, create a GitHub release with tag `v4.1.0` on the commit containing the update. Attach the macOS ZIP and its `.sha256` file, and use the [4.1.0 release notes](docs/release-notes/4.1.0.md). For a notarized build, follow [Apple’s Developer ID signing and notarization instructions](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution).
 
 **iPad** — Select an iPad simulator or an iPad running iPadOS 17 or later, then press **⌘R**. For a physical iPad, choose your Team under **Signing & Capabilities**. If Xcode reports a bundle ID conflict, set a unique ID for your build. [Apple’s Developer Mode instructions](https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device) cover running on a physical device. Public iPad distribution requires a signed distribution build.
 
